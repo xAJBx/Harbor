@@ -8,9 +8,8 @@ const request = require('request');
 // @access  Public
 Router.post("/:Coordinates/:Sensor0/:Sensor1/:Sensor2/:Sensor3/:ErrorCode", (req, res) => {
     mysqlConnection.query(`INSERT INTO sensor_data (Coordinates, Sensor0_data, Sensor1_data, Sensor2_data, Sensor3_data, ErrorCode) 
-    VALUES ('${req.params.Coordinates}' , '${req.params.Sensor0}', '${req.params.Sensor1}', '${req.params.Sensor2}', '${req.params.Sensor3}', '${req.params.ErrorCode}')`);
-
+    VALUES ('${req.params.Coordinates}' , '${req.params.Sensor0}', '${req.params.Sensor1}', '${req.params.Sensor2}', '${req.params.Sensor3}', '${req.params.ErrorCode}')`);  
     res.send(x);
 })
-//
+
 module.exports = Router;

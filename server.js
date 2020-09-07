@@ -6,6 +6,7 @@ const mysqlConnection = require("./connect")
 const ifaces = os.networkInterfaces();
 
 const DataRoute = require("./routes/data"); 
+const ErrorRoute = require("./routes/error");
 
 Object.keys(ifaces).forEach(function (ifname) {
     var alias = 0;
@@ -31,6 +32,7 @@ Object.keys(ifaces).forEach(function (ifname) {
 app.use(bodyParser.json())
 
 app.use("/data", DataRoute);
+app.use("/error", ErrorRoute);
 
 
 const PORT = process.env.PORT || 5010
