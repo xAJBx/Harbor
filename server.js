@@ -35,6 +35,6 @@ app.use("/data", DataRoute);
 app.use("/error", ErrorRoute);
 
 
-const PORT = process.env.PORT || 5009
+const PORT = process.env.PORT || 50091
 const IP = process.env.IP 
 app.listen(PORT, () => console.log(`Server started on IP: ${IP} port: ${PORT}`));

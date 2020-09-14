@@ -19,4 +19,13 @@ Router.post("/:unit_id/:gps_coord/:sensor_id/:sensor_reading", async (req, res) 
     res.send('done');
 })//
 
+Router.get("/", async (req, res) => {
+    let data = await mysqlConnection.query(`CALL spGET_DATA`, true, (error, results, fields) => {
+        if(error){
+            return console.error(error.message);
+        }
+        res.json(results[0]);
+    });
+})
+
 module.exports = Router;
