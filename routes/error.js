@@ -19,8 +19,11 @@ Router.post("/:unit_id/:gps_coord/:sensor_id/:sensor_reading", async (req, res) 
     res.send('done');
 })
 
-Router.get("/", async (req, res) => {
-    let data = await mysqlConnection.query(`CALL spGET_ERRORS`, true, (error, results, fields) => {
+// @route   GET /:date_from
+// @desc    Get all data from after date perameter
+// @access  Public
+Router.get("/:date_from", async (req, res) => {
+    let data = await mysqlConnection.query(`CALL spGET_ERRORS('${req.params.date_from}')`, true, (error, results, fields) => {
         if(error){
             return console.error(error.message);
         }
