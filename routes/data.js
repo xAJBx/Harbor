@@ -37,7 +37,7 @@ Router.get("/:date_from", async (req, res) => {
 // @access  Public
 // @date    2020-09-18
 Router.get("/:date_from/:date_to", async (req, res) => {
-    let data = await mysqlConnection.query(`CALL spGET_DATA_Range('${req.params.date_from}, ${req.params.date_to}')`, true, (error, results, fields) => {
+    let data = await mysqlConnection.query(`CALL spGET_DATA_Range('${req.params.date_from}', '${req.params.date_to}')`, true, (error, results, fields) => {
         if(error){
             return console.error(error.message);
         }
