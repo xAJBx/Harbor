@@ -45,4 +45,10 @@ app.listen(PORT, () => console.log(`Server started on IP: ${IP} port: ${PORT}`))
 
 
 // https server
-https.createServer(app).listen(5010);
+
+https.createServer({
+  key: fs.readFileSync('./key.pem'),
+  cert: fs.readFileSync('./cert.pem'),
+  passphrase: 'Jesusbewithme1'
+}, 
+app).listen(5010);
