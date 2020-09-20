@@ -5,6 +5,10 @@ const os = require('os');
 const mysqlConnection = require("./connect")
 const ifaces = os.networkInterfaces();
 
+// trying to https
+const https = require('https');
+const fs = require('fs');
+
 const DataRoute = require("./routes/data"); 
 const ErrorRoute = require("./routes/error");
 
@@ -38,3 +42,7 @@ app.use("/error", ErrorRoute);
 const PORT = process.env.PORT || 5009
 const IP = process.env.IP 
 app.listen(PORT, () => console.log(`Server started on IP: ${IP} port: ${PORT}`));
+
+
+// https server
+https.createServer(app).listen(5010);
