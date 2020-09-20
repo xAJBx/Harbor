@@ -12,6 +12,10 @@ const fs = require('fs');
 const DataRoute = require("./routes/data"); 
 const ErrorRoute = require("./routes/error");
 
+let serverIP;
+let httpPort = 5009;
+let httpsPort = 5010;
+
 Object.keys(ifaces).forEach(function (ifname) {
     var alias = 0;
   
@@ -27,6 +31,8 @@ Object.keys(ifaces).forEach(function (ifname) {
       } else {
         // this interface has only one ipv4 adress
         console.log(ifname, iface.address);
+        serverIP = iface.address;
+
       }
       ++alias;
     });
@@ -39,16 +45,19 @@ app.use("/data", DataRoute);
 app.use("/error", ErrorRoute);
 
 
-const PORT = process.env.PORT || 5009
+const PORT = process.env.PORT || httpPort;
 const IP = process.env.IP 
 app.listen(PORT, () => console.log(`Server started on IP: ${IP} port: ${PORT}`));
 
 
 // https server
-
 https.createServer({
   key: fs.readFileSync('./key.pem'),
   cert: fs.readFileSync('./cert.pem'),
   passphrase: 'Jesusbewithme1'
 }, 
-app).listen(5010);
+app).listen(httpsPort);
+
+// call sp for inserting server data to db
+mysqlConnection.query(`CALL spINSERT_Harbor_Details('${serverIP}', '${httpsPort}', '${httpPort}')`);
+
