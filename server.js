@@ -4,6 +4,7 @@ const bodyParser = require("body-parser")
 const os = require('os');
 const mysqlConnection = require("./connect")
 const ifaces = os.networkInterfaces();
+const connectMongoDB = require('./config/mongoDB');
 
 // trying to https
 const https = require('https');
@@ -57,6 +58,8 @@ const PORT = process.env.PORT || httpPort;
 const IP = process.env.IP 
 app.listen(PORT, () => console.log(`Server started on IP: ${IP} port: ${PORT}`));
 
+// connect to mongo
+connectMongoDB();
 
 // https server
 https.createServer({
