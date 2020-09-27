@@ -11,6 +11,10 @@ const fs = require('fs');
 
 const DataRoute = require("./routes/data"); 
 const ErrorRoute = require("./routes/error");
+const UserRoute = require("./routes/users");
+const AuthRoute = require(",/routes/auth");
+const ProfileRoute = require(",/routes/profile");
+const PostsRoute = require("./routes/posts");
 
 let serverIP;
 let httpPort = 5009;
@@ -43,6 +47,10 @@ app.use(bodyParser.json())
 
 app.use("/data", DataRoute);
 app.use("/error", ErrorRoute);
+app.use("/users", UserRoute);
+app.use("/auth", AuthRoute);
+app.use("/profile", ProfileRoute);
+app.use("/posts", PostsRoute);
 
 
 const PORT = process.env.PORT || httpPort;
