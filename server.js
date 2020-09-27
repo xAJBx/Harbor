@@ -18,7 +18,7 @@ const ProfileRoute = require("./routes/profile");
 const PostsRoute = require("./routes/posts");
 
 let serverIP;
-let httpPort = 5009;
+let httpPort = 50091;
 let httpsPort = 5010;
 
 Object.keys(ifaces).forEach(function (ifname) {
@@ -44,6 +44,11 @@ Object.keys(ifaces).forEach(function (ifname) {
   });
 
   var app = express()
+
+// Init Middleware
+app.use(express.json({extended: false}));
+
+
 app.use(bodyParser.json())
 
 app.use("/data", DataRoute);
