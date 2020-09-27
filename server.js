@@ -13,8 +13,8 @@ const fs = require('fs');
 const DataRoute = require("./routes/data"); 
 const ErrorRoute = require("./routes/error");
 const UserRoute = require("./routes/users");
-const AuthRoute = require(",/routes/auth");
-const ProfileRoute = require(",/routes/profile");
+const AuthRoute = require("./routes/auth");
+const ProfileRoute = require("./routes/profile");
 const PostsRoute = require("./routes/posts");
 
 let serverIP;
@@ -62,12 +62,12 @@ app.listen(PORT, () => console.log(`Server started on IP: ${IP} port: ${PORT}`))
 connectMongoDB();
 
 // https server
-https.createServer({
-  key: fs.readFileSync('./key.pem'),
-  cert: fs.readFileSync('./cert.pem'),
-  passphrase: 'Jesusbewithme1'
-}, 
-app).listen(httpsPort);
+//https.createServer({
+//  key: fs.readFileSync('./key.pem'),
+//  cert: fs.readFileSync('./cert.pem'),
+//  passphrase: 'Jesusbewithme1'
+//}, 
+//app).listen(httpsPort);
 
 // call sp for inserting server data to db
 mysqlConnection.query(`CALL spINSERT_Harbor_Details('${serverIP}', '${httpsPort}', '${httpPort}')`);
