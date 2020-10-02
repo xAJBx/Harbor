@@ -20,7 +20,7 @@ const ProfileSchema = new mongoose.Schema({
         type: String
     },
     //MariaTower.data.Data
-    instruments: [{
+    instruments: [new mongoose.Schema({
         
         time_stamp: {
             type: Date
@@ -39,8 +39,8 @@ const ProfileSchema = new mongoose.Schema({
         },
         sensor_reading: {
             type: Number
-        }
-    }],
+        } 
+    })], 
     //end MariaTower.sata   
     api_key: {
         type: String

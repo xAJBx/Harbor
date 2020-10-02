@@ -5,6 +5,7 @@ const { check, validationResult} = require('express-validator');
 
 const Profile = require('../model/Profile');
 const User = require('../model/User');
+const Instrument = require('../model/Instrument');
 
 // @route   GET /profile/me
 // @decs    Get current logged in user's profile
@@ -37,6 +38,7 @@ router.post('/', auth, async (req, res) => {
         location,
         bio,
         instruments,
+        instrument,
         api_key,
         social,
         youtube,
@@ -47,6 +49,8 @@ router.post('/', auth, async (req, res) => {
         github
     } = req.body;
     
+    
+
     // Build profile object
     const profileFields = {};
     profileFields.user = req.user.id;
@@ -54,11 +58,7 @@ router.post('/', auth, async (req, res) => {
     if(website) profileFields.website = website;
     if(location) profileFields.location = location;
     if(bio) profileFields.bio = bio;
-    if(instruments){
-        profileFields.instruments = instruments.split(',').map(instruments => instruments.trim());
-    };
-    if(api_key) profileFields.api_key = api_key;
-
+    
     // Build social object
     profileFields.social = {}
     if(youtube) profileFields.social.youtube = youtube;
@@ -67,6 +67,7 @@ router.post('/', auth, async (req, res) => {
     if(linkedin) profileFields.social.linkedin = linkedin;
     if(instagram) profileFields.social.instagram = instagram;
     if(github) profileFields.social.github = github;
+    //console.log(profileFields.instruments.instrument[0])
 
     try {
         let profile = await Profile.findOne({ user: req.user.id });
@@ -85,11 +86,6 @@ router.post('/', auth, async (req, res) => {
         console.error(err.message);
         res.status(500).send("server error");
     }
-
-
-
-
-
 });
 
 module.exports = router;

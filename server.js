@@ -16,6 +16,7 @@ const UserRoute = require("./routes/users");
 const AuthRoute = require("./routes/auth");
 const ProfileRoute = require("./routes/profile");
 const PostsRoute = require("./routes/posts");
+const SettingsRoute = require("./routes/settings");
 
 let serverIP;
 let httpPort = 50091;
@@ -57,6 +58,7 @@ app.use("/users", UserRoute);
 app.use("/auth", AuthRoute);
 app.use("/profile", ProfileRoute);
 app.use("/posts", PostsRoute);
+app.use("/settings", SettingsRoute);
 
 
 const PORT = process.env.PORT || httpPort;
