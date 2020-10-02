@@ -8,9 +8,34 @@ const uuidAPIKey = require('uuid-apikey');
 
 const Settings = require('../model/Settings');
 const User = require('../model/User');
+const UserKeyGen = require('../model/UserKeyGen');
+
+// @route   POST /settings/genKey
+// @decs    Return API Key and set new uuid in mongo
+// @access  Private
+router.post('/genKey', auth, async (req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({ errors: errors.array()});
+    }
+    const uuidFields = {};
+    uuidFields.user = req.user.id;
+    const keyProps = uuidAPIKey.create();
+    uuidFields.uuid = keyProps.uuid;
+    try {
+        let uuid = await User.findOne({ user: req.user.id });
+        uuid = new UserKeyGen(uuidFields);
+        await uuid.save();
+        res.json(keyProps.apiKey);
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("server error");
+    }
+})
 
 // @route   POST /settings/default
-// @decs    Generate API key and set default user settings
+// @decs    Set default user settings
 // @access  Private
 router.post('/default', auth, async (req, res) =>{
     const errors = validationResult(req);
@@ -20,15 +45,6 @@ router.post('/default', auth, async (req, res) =>{
 
     const settingsFields = {};
     settingsFields.user = req.user.id;
-    const keyObject = uuidAPIKey.create();
-
-
-    settingsFields.uuid = keyObject.uuid;
-    settingsFields.api_key = keyObject.apiKey;
-
-    console.log(settingsFields);
-
-
 
     try {
         
