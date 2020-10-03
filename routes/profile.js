@@ -72,15 +72,14 @@ router.post('/', auth, async (req, res) => {
     // Build settings object
     profileFields.settings = {};
     if(uuid) profileFields.settings.uuid = uuid;
-    if(cycle_time) profileFields.settings.uuid = cycle_time;
-    
+    if(cycle_time) profileFields.settings.cycle_time = cycle_time;
+
+    // default settings
+    if(!profileFields.settings.cycle_time) profileFields.settings.cycle_time = 300000;
 
     try {
         let profile = await Profile.findOne({ user: req.user.id });
         
-        // default settings if empty
-        if(!profile.settings.cycle_time) profileFields.settings.cycle_time = 300000;
-
         if(profile){
             // update profile
             profile = await Profile.findOneAndUpdate({ user: req.user.id }, {$set: profileFields}, { new: true });
