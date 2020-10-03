@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Instrument = require('./Instrument');
+//const Instrument = require('./Instrument');
 
 const ProfileSchema = new mongoose.Schema({
     user: {
@@ -42,7 +42,7 @@ const ProfileSchema = new mongoose.Schema({
         } 
     })], 
     //end MariaTower.sata   
-    api_key: {
+    uuid: {
         type: String
     },
     social: {
@@ -63,6 +63,16 @@ const ProfileSchema = new mongoose.Schema({
         },
         github: {
             type: String
+        }
+    },
+    settings: {
+        uuid: {
+            type: String
+        },
+        cycle_time: { // time is in ms
+            type: Number,
+            min: 5000,
+            default: 300000
         }
     },
     date: {

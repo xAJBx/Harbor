@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 const auth = require('.././middleware/auth');
 const { check, validationResult} = require('express-validator');
+const uuidAPIKey = require('uuid-apikey');
 
 const Profile = require('../model/Profile');
 const User = require('../model/User');
-const Instrument = require('../model/Instrument');
+//const Instrument = require('../model/Instrument');
 
 // @route   GET /profile/me
 // @decs    Get current logged in user's profile
@@ -37,16 +38,16 @@ router.post('/', auth, async (req, res) => {
         website,
         location,
         bio,
-        instruments,
-        instrument,
-        api_key,
         social,
         youtube,
         twitter,
         facebook,
         linkedin,
         instagram,
-        github
+        github,
+        settings,
+        uuid,
+        cycle_time
     } = req.body;
     
     
@@ -67,10 +68,19 @@ router.post('/', auth, async (req, res) => {
     if(linkedin) profileFields.social.linkedin = linkedin;
     if(instagram) profileFields.social.instagram = instagram;
     if(github) profileFields.social.github = github;
-    //console.log(profileFields.instruments.instrument[0])
+    
+    // Build settings object
+    profileFields.settings = {};
+    if(uuid) profileFields.settings.uuid = uuid;
+    if(cycle_time) profileFields.settings.uuid = cycle_time;
+    
 
     try {
         let profile = await Profile.findOne({ user: req.user.id });
+        
+        // default settings if empty
+        if(!profile.settings.cycle_time) profileFields.settings.cycle_time = 300000;
+
         if(profile){
             // update profile
             profile = await Profile.findOneAndUpdate({ user: req.user.id }, {$set: profileFields}, { new: true });
@@ -87,5 +97,66 @@ router.post('/', auth, async (req, res) => {
         res.status(500).send("server error");
     }
 });
+
+
+// @route   POST /profile/settings/genKey
+// @decs    Return API Key and set new uuid in mongo
+// @access  Private
+router.post('/settings/genKey', auth, async (req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({ errors: errors.array()});
+    }
+    const uuidFields = {};
+    const keyProps = uuidAPIKey.create();
+    uuidFields.uuid = keyProps.uuid;
+
+    try {
+        let profile = await Profile.findOne({ user: req.user.id });
+        profile.settings.uuid = uuidFields.uuid;
+        await profile.save();
+        res.json(keyProps.apiKey);
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("server error");
+    }
+})
+
+// @route   POST /profile/settings/default
+// @decs    Set default user settings
+// @access  Private
+// @state   Broken
+router.post('/settings/defaultxxx', auth, async (req, res) =>{
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({ errors: errors.array()});
+    }
+
+    const settingsFields = {settings: {
+        user: req.user.id,
+        cycle_time:  300000
+    }};
+    //settingsFields.user = req.user.id;
+    //settingsFields.settings.cycle_time = 300000;
+
+
+    try {
+        
+        let settings = await User.findOne({ user: req.user.id }); 
+        settings = new Profile(settingsFields);
+        await settings.save();
+        
+        //const responding = await (Settings.findById(req.settings.id)).select('-uuid');
+        res.json(settings);
+        
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("server error");
+    }
+});
+
+
 
 module.exports = router;
