@@ -16,6 +16,8 @@ const UserRoute = require("./routes/users");
 const AuthRoute = require("./routes/auth");
 const ProfileRoute = require("./routes/profile");
 const PostsRoute = require("./routes/posts");
+const apiDataRoute = require('./routes/api/data');
+const apiErrorRoute = require('./routes/api/error');
 
 
 let serverIP;
@@ -58,6 +60,8 @@ app.use("/users", UserRoute);
 app.use("/auth", AuthRoute);
 app.use("/profile", ProfileRoute);
 app.use("/posts", PostsRoute);
+app.use("/api/data", apiDataRoute);
+app.use("/api/error", apiErrorRoute);
 
 
 
