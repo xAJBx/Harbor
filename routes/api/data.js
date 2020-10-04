@@ -13,7 +13,9 @@ const User = require('../../model/User');
 // @access  Private
 Router.post("/:unit_id/:gps_coord/:sensor_id/:sensor_reading", async (req, res) => {
     console.log('data api');
-    
+    console.log(req.body);    
+
+
     const {
         apiKey,
         user
@@ -42,6 +44,7 @@ Router.post("/:unit_id/:gps_coord/:sensor_id/:sensor_reading", async (req, res) 
         console.error(err.message);
         res.status(500).send("Server Error");
     }
+    console.log('done');
     res.send('done');
 });
 

@@ -11,8 +11,8 @@ const User = require('../../model/User');
 // @desc    Insert Errror record locally and relay http request to Harbor.  API key passed in through the body and user (email)
 // @access  Private
 Router.post("/:unit_id/:gps_coord/:sensor_id/:sensor_reading", async (req, res) => {
-    console.log('error api')
-
+    console.log('error api');
+    console.log(req.body);
     const {
         apiKey,
         user
