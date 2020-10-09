@@ -21,6 +21,8 @@ Router.post("/:unit_id/:gps_coord/:sensor_id/:sensor_reading", async (req, res) 
         user
     } = req.body;
 
+    console.log(req.body);
+
     if(!uuidAPIKey.isAPIKey(apiKey)) res.json({ msg: "Not a valid API key"});
 
     // find user
