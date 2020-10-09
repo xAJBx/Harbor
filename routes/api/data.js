@@ -36,7 +36,7 @@ Router.post("/:unit_id/:gps_coord/:sensor_id/:sensor_reading", async (req, res) 
     if(!uuidAPIKey.check(apiKey, profile.settings.uuid)){
         res.json({ msg: "Invalid API Key or User"})
     };
-  
+    console.log("herehere");
     try{   
         mysqlConnection.query(`CALL spINSERT_DATA('${req.params.unit_id}', '${req.params.gps_coord}', '${req.params.sensor_id}', '${req.params.sensor_reading}')`);
     
