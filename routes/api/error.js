@@ -13,11 +13,12 @@ const User = require('../../model/User');
 Router.post("/:unit_id/:gps_coord/:sensor_id/:sensor_reading", async (req, res) => {
     console.log('error api');
     console.log(req.body);
+    try{
     const {
         apiKey,
         user
     } = req.body;
-
+    console.log(req.body);
     if(!uuidAPIKey.isAPIKey(apiKey)) res.json({ msg: "Not a valid API key"});
 
     // find user
@@ -36,7 +37,7 @@ Router.post("/:unit_id/:gps_coord/:sensor_id/:sensor_reading", async (req, res) 
 
 
 
-    try{
+    
         
         mysqlConnection.query(`CALL spINSERT_ERROR('${req.params.unit_id}', '${req.params.gps_coord}', '${req.params.sensor_id}', '${req.params.sensor_reading}')`);
     
