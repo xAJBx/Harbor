@@ -4,6 +4,7 @@ const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const mysqlConnection = require('../../connect');
 const { check, validationResult } = require('express-validator');
 
 const User = require('../model/User');
@@ -56,6 +57,9 @@ router.post('/',[
                 id: user.id
             }
         };
+        
+        mysqlConnection.query(`CALL spCREATE_DATA_TABLE('${user.id}}')`);
+
 
         jwt.sign(
             payload,
