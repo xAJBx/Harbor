@@ -58,7 +58,8 @@ router.post('/',[
             }
         };
         
-        mysqlConnection.query(`CALL spCREATE_DATA_TABLE('${user.id}}')`);
+        console.log(user.id);
+        mysqlConnection.query(`CALL spCREATE_DATA_TABLE("${user.id}}'")`);
 
 
         jwt.sign(

@@ -13,7 +13,7 @@ const User = require('../../model/User');
 // @access  Private
 Router.post("/:unit_id/:gps_coord/:sensor_id/:sensor_reading", async (req, res) => {
     console.log('data api');
-    console.log(req.body);    
+       
 
     try{  
     const {
@@ -21,7 +21,7 @@ Router.post("/:unit_id/:gps_coord/:sensor_id/:sensor_reading", async (req, res) 
         user
     } = req.body;
 
-    console.log(req.body);
+    
 
     if(!uuidAPIKey.isAPIKey(apiKey)) res.json({ msg: "Not a valid API key"});
 
@@ -38,7 +38,7 @@ Router.post("/:unit_id/:gps_coord/:sensor_id/:sensor_reading", async (req, res) 
     if(!uuidAPIKey.check(apiKey, profile.settings.uuid)){
         res.json({ msg: "Invalid API Key or User"})
     };
-    console.log("herehere");
+    
      
         mysqlConnection.query(`CALL spINSERT_DATA('${req.params.unit_id}', '${req.params.gps_coord}', '${req.params.sensor_id}', '${req.params.sensor_reading}', '${userFind.id}')`);
     
