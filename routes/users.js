@@ -58,8 +58,9 @@ router.post('/',[
             }
         };
         
-        console.log(user.id);
-        mysqlConnection.query(`CALL spCREATE_DATA_TABLE("${user.id}}'")`);
+
+        // Create MariaDB for sensor data
+        mysqlConnection.query(`CALL spCREATE_DATA_TABLE("${user.id}")`);
 
 
         jwt.sign(
