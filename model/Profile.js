@@ -20,27 +20,9 @@ const ProfileSchema = new mongoose.Schema({
         type: String
     },
     //MariaTower.data.Data
-    instruments: [new mongoose.Schema({
-        
-        time_stamp: {
-            type: Date
-        },
-        record_id: {
-            type: Number
-        },
-        unit_id: {
-            type: String
-        },
-        gps_coord: {
-            type: String
-        },
-        sensor_id: {
-            type: String
-        },
-        sensor_reading: {
-            type: Number
-        } 
-    })], 
+    instruments: {
+        type: [String]
+    }, 
     //end MariaTower.sata   
     uuid: {
         type: String
