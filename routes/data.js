@@ -3,34 +3,41 @@ const Router = express.Router();
 const mysqlConnection = require("../connect");
 const request = require('request');
 const uuidAPIKey = require('uuid-apikey');
+const auth = require('.././middleware/auth');
 
 const Profile = require('../model/Profile');
 const User = require('../model/User');
 
-// @route   GET /:date_from
-// @desc    Get all data from after date perameter
-// @access  Public
-Router.get("/:date_from", async (req, res) => {
-    let data = await mysqlConnection.query(`CALL spGET_DATA('${req.params.date_from}')`, true, (error, results, fields) => {
-        if(error){
-            return console.error(error.message);
+// @route   GET /latestRecord/:unit_id
+// @desc    Returns the latest recorded mysql record
+// @access  Private
+Router.get('/latestRecord/:unit_id', auth, async (req, res) => {
+    try {
+        const profile = await Profile.findOne({ user: req.user.id }).populate('user', [ 'name', 'avatar']);
+        if(!profile){
+            return res.status(400).json({ msg: 'There is no profile for this user'});
         }
-        res.json(results[0]);
-    });
-})
 
-// @route   GET /:date_from/:date_to
-// @desc    Get all data between date params
-// @access  Public
-// @date    2020-09-18
-Router.get("/:date_from/:date_to", async (req, res) => {
-    mysqlConnection.query(`CALL spGET_DATA_Range('${req.params.date_from}', '${req.params.date_to}')`, true, (error, results, fields) => {
-        if(error){
-            return console.error(error.message);
-        }
-        res.json(results[0]);
-    });
-})
+        let table = profile.user.id
+
+        mysqlConnection.query(
+            `CALL spGetLatestRecord('${table}', '${req.params.unit_id}')`,
+            function (err, result) {
+                if(err) {
+                    
+                    res.json(err)
+                }
+                else{
+                  
+                 res.json(result)
+                }
+            });   
+          
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
 
 
 module.exports = Router;

@@ -21,8 +21,8 @@ const apiErrorRoute = require('./routes/api/error');
 
 
 let serverIP;
-let httpPort = 5009;
-let httpsPort = 5010;
+let httpPort = 50091;
+let httpsPort = 50101;
 
 Object.keys(ifaces).forEach(function (ifname) {
     var alias = 0;
