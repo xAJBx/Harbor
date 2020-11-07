@@ -25,11 +25,11 @@ Router.get('/latestRecord/:unit_id', auth, async (req, res) => {
             function (err, result) {
                 if(err) {
                     
-                    res.json(err)
+                    res.json(err);
                 }
                 else{
                   
-                 res.json(result)
+                 res.json(result);
                 }
             });   
           
