@@ -21,7 +21,8 @@ Router.get('/latestRecord/:unit_id', auth, async (req, res) => {
         let table = profile.user.id
 
         mysqlConnection.query(
-            `CALL spGetLatestRecord('${table}', '${req.params.unit_id}')`,
+            `USE data;
+            CALL spGetLatestRecord('${table}', '${req.params.unit_id}');`,
             function (err, result) {
                 if(err) {
                     
