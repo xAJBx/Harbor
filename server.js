@@ -24,6 +24,8 @@ let serverIP;
 let httpPort = 5009;
 let httpsPort = 5010;
 
+
+
 Object.keys(ifaces).forEach(function (ifname) {
     var alias = 0;
   
@@ -48,6 +50,11 @@ Object.keys(ifaces).forEach(function (ifname) {
 
   var app = express()
 
+
+  app.use((request, response, next) =>{
+    response.header("Access-Control-Allow-Origin", "*");
+    response.header("Access-Control-Allow-Headers", "Content-Type");
+  })
 // Init Middleware
 app.use(express.json({extended: false}));
 
