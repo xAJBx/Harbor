@@ -54,6 +54,7 @@ Object.keys(ifaces).forEach(function (ifname) {
   app.use((request, response, next) =>{
     response.header("Access-Control-Allow-Origin", "*");
     response.header("Access-Control-Allow-Headers", "Content-Type");
+    next();
   })
 // Init Middleware
 app.use(express.json({extended: false}));
