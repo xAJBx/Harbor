@@ -53,7 +53,7 @@ Object.keys(ifaces).forEach(function (ifname) {
 
   app.use((request, response, next) =>{
     response.header("Access-Control-Allow-Origin", "*");
-    response.header("Access-Control-Allow-Headers", "Content-Type", "x-auth-token");
+    response.header("Access-Control-Allow-Headers", "Content-Type, x-auth-token");
     next();
   })
 // Init Middleware
