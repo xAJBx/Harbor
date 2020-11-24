@@ -57,6 +57,19 @@ const ProfileSchema = new mongoose.Schema({
             default: 300000
         }
     },
+    
+        collections: [{
+            collection_name: {
+                type: String
+            },
+            collection_instruments: {
+                type: [String]
+            },
+            collection_people: {
+                type: [String]
+            }
+        }],
+    
     date: {
         type: Date,
         default: Date.now

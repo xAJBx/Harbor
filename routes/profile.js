@@ -47,7 +47,8 @@ router.post('/', auth, async (req, res) => {
         github,
         settings,
         uuid,
-        cycle_time
+        cycle_time,
+        collections
     } = req.body;
     
     
@@ -71,8 +72,20 @@ router.post('/', auth, async (req, res) => {
     
     // Build settings object
     profileFields.settings = {};
-    if(uuid) profileFields.settings.uuid = uuid;
+    if(uuid) {
+        profileFields.settings.uuid = uuid
+    }else{
+        try{
+            let tempo = await Profile.findOne({ user: req.user.id})
+            profileFields.settings.uuid = tempo.settings.uuid 
+        }catch(err){
+            res.send(err);
+        }
+    };
     if(cycle_time) profileFields.settings.cycle_time = cycle_time;
+
+    // Build collections
+    if(collections) profileFields.collections = collections;
 
     // default settings
     if(!profileFields.settings.cycle_time) profileFields.settings.cycle_time = 300000;
