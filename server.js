@@ -53,7 +53,7 @@ Object.keys(ifaces).forEach(function (ifname) {
 
   app.use((request, response, next) =>{
     response.header("Access-Control-Allow-Origin", "*");
-    response.header("Access-Control-Allow-Origin", "http://localhost:5000");
+    //response.header("Access-Control-Allow-Origin", "http://localhost:5000");
     response.header("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS");
     response.header("Access-Control-Allow-Headers", "Content-Type, x-auth-token");
     next();
