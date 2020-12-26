@@ -40,5 +40,40 @@ Router.get('/latestRecord/:unit_id', auth, async (req, res) => {
     }
 });
 
+// @route   GET /rangeRecords/:unit_id/:start/:end
+// @desc    Returns range of recorded mysql record
+// @access  Private
+Router.get('/rangeRecords/:unit_id/:start/:end', auth, async (req, res) => {
+    try {
+        //console.log("request = ", req);
+        const profile = await Profile.findOne({ user: req.user.id }).populate('user', [ 'name', 'avatar']);
+        if(!profile){
+            return res.status(400).json({ msg: 'There is no profile for this user'});
+        }
+
+        let table = "Data_" 
+        table += profile.user.id
+
+
+        mysqlConnection.query(
+            `USE data;
+            CALL spGET_DATA_Range('${table}', '${req.params.unit_id}','${req.params.start}', '${req.params.end}');`,
+            function (err, result) {
+                if(err) {
+                    console.log(err);
+                    res.json(err);
+                }
+                else{
+                  //console.log(result);
+                 res.json(result);
+                }
+            });   
+          
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
 
 module.exports = Router;
