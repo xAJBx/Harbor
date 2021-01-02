@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('.././middleware/auth');
-const { check, validationResult} = require('express-validator');
+const { body, check, validationResult} = require('express-validator');
 const uuidAPIKey = require('uuid-apikey');
+const mysqlConnection = require("../connect");
 
 const Profile = require('../model/Profile');
 const User = require('../model/User');
@@ -169,6 +170,101 @@ router.post('/settings/defaultxxx', auth, async (req, res) =>{
     }
 });
 
+
+
+// @route   POST /profile/createCollection
+// @decs    Create or Replace a collection
+// @access  Private
+router.post('/createCollection', [
+    body("collection_owner", "must have owner").not().isEmpty(),
+    body("collection_users", "must have users").not().isEmpty(),
+    body("collection_name", "must have owner").not().isEmpty(),
+    body("collection_instruments", "must have owner").not().isEmpty()
+],auth, async (req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array()});
+    }
+    const {
+        collection_owner,
+        collection_name,
+        collection_instruments,
+        collection_users
+    } = req.body;
+
+    try{
+        let user = await User.findOne({ email: collection_owner});
+        let user_id = await user.id;
+
+        
+
+        // add collection to owner mongoDB
+        let owner_profile = await Profile.findOne({ user: user_id });
+        let owner_collections = owner_profile.collections;
+        let collection_add_obj = {
+            "collection_name": collection_name,
+            "collection_people": collection_users.split(","),
+            "collection_instruments": collection_instruments.split(",")
+        }
+        owner_collections.collections = owner_collections.push(collection_add_obj)
+        if(owner_profile){
+            // update profile
+            profile = await Profile.findOneAndUpdate({ user: user_id }, {$set: owner_profile}, { new: true });
+            //return res.json(profile);
+        }
+        
+
+        // add collection to outside users collections
+        // need to loop this for number of users loop()
+        let share_user = await User.findOne({ email: collection_users.split(",")[0]});
+        let share_user_id = await share_user.id;
+
+        
+
+        // add collection to users mongoDB
+        let share_user_profile = await Profile.findOne({ user: share_user_id });
+        if(!share_user_profile.collections){
+            share_user_profile.collections = [];
+            await share_user_profile.save();
+        }
+        let share_collections = share_user_profile.collections;
+        let collection_add_share_user_obj = {
+            "collection_name": collection_name,
+            "collection_people": collection_users.split(","),
+            "collection_instruments": collection_instruments.split(",")
+        }
+        share_collections.collections = share_collections.push(collection_add_share_user_obj)
+        if(share_user_profile){
+            // update profile
+            profile = await Profile.findOneAndUpdate({ user: share_user_id }, {$set: share_user_profile}, { new: true });
+            //return res.json(profile);
+        }
+        // end loop()
+
+        console.log(profile);
+        //================
+
+
+
+
+
+        // prepare instrument list for sql view sp
+        let collection_instruments_quoted = collection_instruments.replace(/,/g, "\', \'");
+        collection_instruments_quoted = "\'" + collection_instruments_quoted + "\'"
+    
+        // create view in mysql
+        mysqlConnection.query(
+            `CALL sp_Create_Collection_View("${collection_instruments_quoted}", "${collection_name}", "${user_id}")`
+        );
+        
+        //console.log(user_id);
+    }catch (err){
+        console.log(err)
+        return res.json({msg: toString(err)});
+    }
+
+    return res.json(req.body)
+});
 
 
 module.exports = router;
