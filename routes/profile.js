@@ -172,8 +172,14 @@ router.post('/settings/defaultxxx', auth, async (req, res) =>{
 
 
 
+
+
+
 // @route   POST /profile/createCollection
 // @decs    Create or Replace a collection
+// @toDo    1. validate users exist and handle otherwise
+//          2. implement coments amungst the users
+//          3. validate instruments exist
 // @access  Private
 router.post('/createCollection', [
     body("collection_owner", "must have owner").not().isEmpty(),
@@ -212,14 +218,14 @@ router.post('/createCollection', [
             profile = await Profile.findOneAndUpdate({ user: user_id }, {$set: owner_profile}, { new: true });
             //return res.json(profile);
         }
-        
+       
 
         // add collection to outside users collections
-        // need to loop this for number of users loop()
-        let share_user = await User.findOne({ email: collection_users.split(",")[0]});
+        // loop this for number of users to share with
+        for(let user_loop_index = 0; user_loop_index < collection_users.split(",").length; user_loop_index++){
+        let share_user = await User.findOne({ email: collection_users.split(",")[user_loop_index]});
         let share_user_id = await share_user.id;
 
-        
 
         // add collection to users mongoDB
         let share_user_profile = await Profile.findOne({ user: share_user_id });
@@ -231,7 +237,8 @@ router.post('/createCollection', [
         let collection_add_share_user_obj = {
             "collection_name": collection_name,
             "collection_people": collection_users.split(","),
-            "collection_instruments": collection_instruments.split(",")
+            "collection_instruments": collection_instruments.split(","),
+            "collection_owner": collection_owner
         }
         share_collections.collections = share_collections.push(collection_add_share_user_obj)
         if(share_user_profile){
@@ -239,9 +246,8 @@ router.post('/createCollection', [
             profile = await Profile.findOneAndUpdate({ user: share_user_id }, {$set: share_user_profile}, { new: true });
             //return res.json(profile);
         }
-        // end loop()
+    }
 
-        console.log(profile);
         //================
 
 
@@ -257,9 +263,10 @@ router.post('/createCollection', [
             `CALL sp_Create_Collection_View("${collection_instruments_quoted}", "${collection_name}", "${user_id}")`
         );
         
-        //console.log(user_id);
+        //res.text('done')
+        //console.log("done");
     }catch (err){
-        console.log(err)
+        console.log("test")
         return res.json({msg: toString(err)});
     }
 

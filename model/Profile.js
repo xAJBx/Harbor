@@ -67,6 +67,9 @@ const ProfileSchema = new mongoose.Schema({
             },
             collection_people: {
                 type: [String]
+            },
+            collection_owner: {
+                type: String
             }
         }],
     
