@@ -86,10 +86,10 @@ Router.get('/rangeRecords/:unit_id/:start/:end', auth, async (req, res) => {
             return res.status(400).json({ msg: 'There is no profile for this user'});
         }
 
-        //let table = "Data_" 
+        let table = "Data_" 
         //table += profile.user.id
         // pushed the "Data_" handle upstream to be able to use for collection datas as well
-        let table = profile.user.id;
+        table = table + profile.user.id;
 
         mysqlConnection.query(
             `USE data;
