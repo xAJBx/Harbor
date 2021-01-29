@@ -204,6 +204,7 @@ router.post('/createCollection', [
     if(!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array()});
     }
+    console.log("HEREEEEEEE");
     const {
         collection_owner,
         collection_name,
