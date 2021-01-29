@@ -272,10 +272,11 @@ router.post('/createCollection', [
         collection_instruments_quoted = "\'" + collection_instruments_quoted + "\'"
     
         // create view in mysql
-        mysqlConnection.query(
+        let stuff = mysqlConnection.query(
             `CALL sp_Create_Collection_View("${collection_instruments_quoted}", "${collection_name}", "${user_id}")`
         );
-        
+
+	console.log(stuff);
         //res.text('done')
         //console.log("done");
     }catch (err){
