@@ -173,7 +173,20 @@ router.post('/settings/defaultxxx', auth, async (req, res) =>{
 
 
 
+// @route   POST /profile/comment/collection
+// @decs    Post a comment on a collection
+// @access  Private
 
+router.post('/comment/collection', [
+    body("collection_comment", "comment can not be null").not().isEmpty()
+], auth, async (req, res) => {
+    const errors = validateionResult(req);
+    if(!errors.isEmpty()) {
+	return res.status(400).json({ errors: errors.array()});
+    }
+    const {collection_comment} = req.body;
+    
+})
 
 // @route   POST /profile/createCollection
 // @decs    Create or Replace a collection
@@ -202,7 +215,7 @@ router.post('/createCollection', [
         let user = await User.findOne({ email: collection_owner});
         let user_id = await user.id;
 
-        
+        console.log(user); 
 
         // add collection to owner mongoDB
         let owner_profile = await Profile.findOne({ user: user_id });
