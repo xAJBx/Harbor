@@ -200,6 +200,7 @@ router.post('/createCollection', [
     body("collection_name", "must have owner").not().isEmpty(),
     body("collection_instruments", "must have owner").not().isEmpty()
 ],auth, async (req, res) => {
+    console.log("herrrrrr");
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array()});
