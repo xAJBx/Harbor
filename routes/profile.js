@@ -249,7 +249,7 @@ router.post('/createCollection', [
             await share_user_profile.save();
         }
         let share_collections = share_user_profile.collections;
-        let collection_add_share_user_obj = {
+            let collection_add_share_user_obj = {		
             "collection_name": collection_name,
             "collection_people": collection_users.split(","),
             "collection_instruments": collection_instruments.split(","),
