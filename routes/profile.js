@@ -181,7 +181,7 @@ router.post('/comment/:collection_name', [
     body("collection_comment", "comment can not be null").not().isEmpty(),
     body("collection_users", "a list of users must be included").not().isEmpty()
 ], auth, async (req, res) => {
-    const errors = validateionResult(req);
+    const errors = validationResult(req);
     if(!errors.isEmpty()) {
 	return res.status(400).json({ errors: errors.array()});
     }
