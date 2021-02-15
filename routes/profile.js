@@ -173,19 +173,29 @@ router.post('/settings/defaultxxx', auth, async (req, res) =>{
 
 
 
-// @route   POST /profile/comment/collection
+// @route   POST /profile/comment/:collection
 // @decs    Post a comment on a collection
 // @access  Private
 
-router.post('/comment/collection', [
-    body("collection_comment", "comment can not be null").not().isEmpty()
+router.post('/comment/:collection_name', [
+    body("collection_comment", "comment can not be null").not().isEmpty(),
+    body("collection_users", "a list of users must be included").not().isEmpty()
 ], auth, async (req, res) => {
     const errors = validateionResult(req);
     if(!errors.isEmpty()) {
 	return res.status(400).json({ errors: errors.array()});
     }
-    const {collection_comment} = req.body;
-    
+    const collection = req.params.collection_name;
+    const {collection_comment, collection_users} = req.body;
+    try{
+	let collection_users_array = collection_users.split(",")
+	for(let i = collection_users_array.length(); i >= 0; i++){
+	    profile = await Profile.findOne({email: collection_users_array[i]});
+	    profile.collections.collection.collection_comments.unshift(collection_comment);
+	    await profile.save();
+	}
+
+    }
 })
 
 // @route   POST /profile/createCollection
@@ -200,12 +210,11 @@ router.post('/createCollection', [
     body("collection_name", "must have owner").not().isEmpty(),
     body("collection_instruments", "must have owner").not().isEmpty()
 ],auth, async (req, res) => {
-    console.log("herrrrrr");
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array()});
     }
-    console.log("HEREEEEEEE");
+
     const {
         collection_owner,
         collection_name,
