@@ -202,7 +202,7 @@ router.post('/comment/:collection_name', [
 	    }
 	    //profile.collections.collection_comments.unshift(collection_comment);
 	    await profile.save();
-	    console.log(profile);
+	    //console.log(profile);
 	}
 	res.json({msg:'done comment'});
     }catch (err){
