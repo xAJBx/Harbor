@@ -201,7 +201,8 @@ router.post('/comment/:collection_name', [
 	}
 	res.json({msg:'done comment'});
     }catch (err){
-	console.log({msg: toString(err)});
+	console.log('error in this bia');
+	console.log({msg: err});
 	res.json({msg: toString(err)});
     }
 })
