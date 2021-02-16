@@ -190,13 +190,13 @@ router.post('/comment/:collection_name', [
     try{
 	let collection_users_array = collection_users.split(",")
 	//console.log(collection_users_array);
-	for(let i = collection_users_array.length - 1; i >= 0; i--){
+	for(let i = collection_users_array.length; i >= 0; i--){
 	    profile = await Profile.findOne({email: collection_users_array[i]});
 	    //console.log(profile);
 	    console.log(collection);
 	    console.log('======================');
 	    console.log(profile.collections);
-	    for(let j = profile.collections.length - 1; j >= 0; j--){
+	    for(let j = profile.collections.length; j >= 0; j--){
 	        if(profile.collections[j].collection_name === collection){
 		    console.log(collection_comment);
 		    profile.collections[j].collection_comments.unshift(collection_comment);
