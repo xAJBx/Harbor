@@ -192,7 +192,9 @@ router.post('/comment/:collection_name', [
 	//console.log(collection_users_array);
 	for(let i = collection_users_array.length - 1; i >= 0; i--){
 	    console.log('i= ', i)
-	    profile = await Profile.findOne({email: collection_users_array[i]});
+	    user =  await User.findOne({ email: collection_users_array[i] });
+	    
+	    profile = await Profile.findOne({user: user.id});
 	    console.log(collection_users_array[i]);
 	    //console.log(collection);
 	    console.log(profile);
