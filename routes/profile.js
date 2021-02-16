@@ -192,11 +192,12 @@ router.post('/comment/:collection_name', [
 	console.log(collection_users_array);
 	for(let i = collection_users_array.length; i >= 0; i--){
 	    profile = await Profile.findOne({email: collection_users_array[i]});
-	    //if(!profile.collections.collection_comments){
-		//profile.collections.collection_comments = [];
-	    //}
-	   
-	    profile.collections.collection_comments.unshift(collection_comment);
+	    for(let j = profile.collections.length; j >= 0; j--){
+	        if(profile.collections[j] === collection){
+		    profile.collections[j].collection_comments += profile.collections[j].collection_comments.unshift(collection_comment);
+	        }
+	    }
+	    //profile.collections.collection_comments.unshift(collection_comment);
 	    await profile.save();
 	    console.log(profile);
 	}
