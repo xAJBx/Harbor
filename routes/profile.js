@@ -190,7 +190,7 @@ router.post('/comment/:collection_name', [
     try{
 	let collection_users_array = collection_users.split(",")
 	console.log(collection_users_array);
-	for(let i = collection_users_array.length(); i >= 0; i++){
+	for(let i = collection_users_array.length; i >= 0; i++){
 	    profile = await Profile.findOne({email: collection_users_array[i]});
 	    if(!profile.collections.collection.collection_comments){
 		profile.collections.collection.collection_comments = [];
@@ -223,7 +223,6 @@ router.post('/createCollection', [
     if(!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array()});
     }
-
     const {
         collection_owner,
         collection_name,
