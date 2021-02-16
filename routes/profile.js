@@ -195,7 +195,7 @@ router.post('/comment/:collection_name', [
 	    if(!profile.collections.collection_comments){
 		profile.collections.collection_comments = [];
 	    }
-	    profile.collections.collection.collection_comments.unshift(collection_comment);
+	    profile.collections.collection_comments.unshift(collection_comment);
 	    await profile.save();
 	    console.log(profile);
 	}
