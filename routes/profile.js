@@ -191,8 +191,12 @@ router.post('/comment/:collection_name', [
 	let collection_users_array = collection_users.split(",")
 	for(let i = collection_users_array.length(); i >= 0; i++){
 	    profile = await Profile.findOne({email: collection_users_array[i]});
+	    if(!profile.collections.collection.collection_comments){
+		profile.collections.collection.collection_comments = [];
+	    }
 	    profile.collections.collection.collection_comments.unshift(collection_comment);
 	    await profile.save();
+	    console.log(profile);
 	}
 	res.json({msg:'done comment'});
     }catch (err){
