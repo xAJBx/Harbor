@@ -192,8 +192,8 @@ router.post('/comment/:collection_name', [
 	console.log(collection_users_array);
 	for(let i = collection_users_array.length; i >= 0; i++){
 	    profile = await Profile.findOne({email: collection_users_array[i]});
-	    if(!profile.collections.collection.collection_comments){
-		profile.collections.collection.collection_comments = [];
+	    if(!profile.collections.collection_comments){
+		profile.collections.collection_comments = [];
 	    }
 	    profile.collections.collection.collection_comments.unshift(collection_comment);
 	    await profile.save();
