@@ -189,6 +189,7 @@ router.post('/comment/:collection_name', [
     const {collection_comment, collection_users} = req.body;
     try{
 	let collection_users_array = collection_users.split(",")
+	console.log(collection_users_array);
 	for(let i = collection_users_array.length(); i >= 0; i++){
 	    profile = await Profile.findOne({email: collection_users_array[i]});
 	    if(!profile.collections.collection.collection_comments){
