@@ -207,7 +207,10 @@ router.post('/comment/:collection_name', [
 		    if(!profile.collections[j].collection_comments){
 			profile.collections[j].collection_comments = []
 		    }
-		    profile.collections[j].collection_comments.unshift(collection_comment);
+		    profile.collections[j].collection_comments.unshift({
+			"comment": collection_comment,
+			"author": "me",
+		    });
 		    await profile.save();
 	        }
 	    }
