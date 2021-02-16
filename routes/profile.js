@@ -187,7 +187,7 @@ router.post('/comment/:collection_name', [
 	return res.status(400).json({ errors: errors.array()});
     }
     const collection = req.params.collection_name;
-    const {collection_comment, collection_users} = req.body;
+    const {collection_comment, collection_users, comment_author} = req.body;
     try{
 	let collection_users_array = collection_users.split(",")
 	//console.log(collection_users_array);
@@ -210,7 +210,7 @@ router.post('/comment/:collection_name', [
 		    }
 		    profile.collections[j].collection_comments.unshift({
 			"comment": collection_comment,
-			"author": "me",
+			"author": comment_author,
 		    });
 		    await profile.save();
 	        }
