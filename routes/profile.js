@@ -196,7 +196,7 @@ router.post('/comment/:collection_name', [
 	    console.log(collection_users_array[i]);
 	    //console.log(collection);
 	    console.log('======================');
-	    console.log(profile.collections);
+	    //console.log(profile.collections);
 	    for(let j = profile.collections.length - 1; j >= 0; j--){
 		console.log('j= ', j);
 		if(profile.collections[j].collection_name === collection){
