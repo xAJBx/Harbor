@@ -197,7 +197,7 @@ router.post('/comment/:collection_name', [
 	res.json({msg:'done comment'});
     }catch (err){
 	console.log({msg: toString(err)});
-	res.text({msg: toString(err)});
+	res.json({msg: toString(err)});
     }
 })
 
