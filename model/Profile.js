@@ -72,9 +72,11 @@ const ProfileSchema = new mongoose.Schema({
                 type: String
             },
 	    //<2021_02_13>
-	    collection_comments: {
-		type: [ String ]
-	    }
+	    collection_comments: [{
+		comment: { type:  String },
+		author: { type: String },
+		post_time: { type : Date, default: Date.now }
+	    }]
 	    //<\2021_02_13>
         }],
     
