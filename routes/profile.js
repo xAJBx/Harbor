@@ -194,7 +194,7 @@ router.post('/comment/:collection_name', [
 	    profile.collections.collection.collection_comments.unshift(collection_comment);
 	    await profile.save();
 	}
-	res.text('done comment');
+	res.json({msg:'done comment'});
     }catch (err){
 	console.log({msg: toString(err)});
 	res.text({msg: toString(err)});
