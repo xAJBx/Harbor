@@ -198,6 +198,7 @@ router.post('/comment/:collection_name', [
 	    console.log(profile.collections);
 	    for(let j = profile.collections.length; j > 0; j--){
 	        if(profile.collections[j] === collection){
+		    console.log(collection_comment);
 		    profile.collections[j].collection_comments += profile.collections[j].collection_comments.unshift(collection_comment);
 		    await profile.save();
 	        }
