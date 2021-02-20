@@ -62,9 +62,12 @@ const ProfileSchema = new mongoose.Schema({
             collection_name: {
                 type: String
             },
-            collection_instruments: {
-                type: [String]
-            },
+	    // <2021_02_20>
+            collection_instruments: [{
+		instrument_name: { type: String },
+		instrument_portion: { type: number, default: 0 }
+            }],
+	    // <\2021_02_20>
             collection_people: {
                 type: [String]
             },
