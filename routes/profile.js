@@ -262,7 +262,7 @@ router.post('/createCollection', [
         let collection_add_obj = {
             "collection_name": collection_name,
             "collection_people": collection_users.split(","),
-            "collection_instruments": { "instrument": collection_instruments.split(",") }
+            "collection_instruments.instrument":  collection_instruments.split(",") 
         }
         owner_collections.collections = owner_collections.push(collection_add_obj)
         if(owner_profile){
