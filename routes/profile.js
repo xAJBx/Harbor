@@ -269,7 +269,7 @@ router.post('/collection/portion', [
 		    //console.log("ic:", ic);
 		    console.log("found instrument_name: ",owner_collections[index].collection_instruments[ic].instrument_name === collection_instrument);
 		    if(owner_collections[index].collection_instruments[ic].instrument_name === collection_instrument){
-			owner_collections[index].instruments[ic].instrument_portion = collection_portion;			
+			owner_collections[index].collection_instruments[ic].instrument_portion = collection_portion;			
 			await owner_collections.save();
 
 			console.log(owner_profile);
