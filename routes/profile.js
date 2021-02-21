@@ -377,10 +377,15 @@ router.post('/createCollection', [
             let collection_add_share_user_obj = {		
             "collection_name": collection_name,
             "collection_people": collection_users.split(","),
-            "collection_instruments": collection_instruments.split(","),
+ 	    "collection_instruments": [],
             "collection_owner": collection_owner
-        }
-        share_collections.collections = share_collections.push(collection_add_share_user_obj)
+            }
+	    
+	    for(let idex = array_collection_instruments.length - 1; idex >= 0; idex--){
+		collection_add_share_user_obj.collection_instruments.push({ "instrument_name": array_collection_instruments[idex]});
+	    }
+
+	share_collections.collections = share_collections.push(collection_add_share_user_obj)
         if(share_user_profile){
             // update profile
             profile = await Profile.findOneAndUpdate({ user: share_user_id }, {$set: share_user_profile}, { new: true });
