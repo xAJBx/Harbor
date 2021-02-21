@@ -237,7 +237,7 @@ router.post('/collection/portion', [
     body("collection_instrument", "must have collection instrument").not().isEmpty(),
     body("collection_portion", "must have portion").not().isEmpty()
 ],auth, async (req, res) => {
-    const errors = validateionResult(req);
+    const errors = validationResult(req);
     if(!errors.isEmpty()){
 	return res.status(400).json({ errors: errors.array()});
     }
