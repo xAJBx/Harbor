@@ -309,8 +309,8 @@ router.post('/collection/portion', [
 router.post('/createCollection', [
     body("collection_owner", "must have owner").not().isEmpty(),
     body("collection_users", "must have users").not().isEmpty(),
-    body("collection_name", "must have owner").not().isEmpty(),
-    body("collection_instruments", "must have owner").not().isEmpty()
+    body("collection_name", "must have collection name").not().isEmpty(),
+    body("collection_instruments", "must have instrument").not().isEmpty()
 ],auth, async (req, res) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
