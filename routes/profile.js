@@ -227,10 +227,10 @@ router.post('/comment/:collection_name', [
     }
 })
 
-// @route   POST /profile/collection/portion
+// @route   POST /profile/collection/portion/:portion
 // @desc    Update's the portion of an instrument needed for a product generated from collection
 // @access  Private
-router.post('/collection/:portion', [
+router.post('/collection/portion', [
     body("collection_owner", "must have owner").not().isEmpty(),
     body("collection_users", "must have users").not().isEmpty(),
     body("collection_name", "must have collection name").not().isEmpty(),
@@ -259,7 +259,7 @@ router.post('/collection/:portion', [
 	//find collection
 	for (let index = owner_collections.length -1 >= 0; index--){
 	    if(owner_collections[index].collection_name === collection_name){
-		owner_collections[index].collection_portion = req.params.portion;
+		owner_collections[index].collection_portion = collection_portion;
 		await owner_collections.save();
 	    }
 	}
@@ -276,7 +276,7 @@ router.post('/collection/:portion', [
 	    //find collection
 	    for (let ci = member_collections.length - 1; ci >= 0; ci--){
 		if(member_collections[ci].collection_name === collection_name){
-		    member_collections[ci].collection_portion = req.params.portion;
+		    member_collections[ci].collection_portion = collection_portion;
 		    await member_collections.save();
 		}
 	    }
