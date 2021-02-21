@@ -234,6 +234,7 @@ router.post('/collection/portion', [
     body("collection_owner", "must have owner").not().isEmpty(),
     body("collection_users", "must have users").not().isEmpty(),
     body("collection_name", "must have collection name").not().isEmpty(),
+    body("collection_instrument", "must have collection instrument").not().isEmpty(),
     body("collection_portion", "must have portion").not().isEmpty()
 ],auth, async (req, res) => {
     const errors = validateionResult(req);
@@ -245,6 +246,7 @@ router.post('/collection/portion', [
 	collection_owner,
 	collection_users,
 	collection_name,
+	collection_instrument,
 	collection_portion
     } = req.body;
 
@@ -259,8 +261,13 @@ router.post('/collection/portion', [
 	//find collection
 	for (let index = owner_collections.length -1 >= 0; index--){
 	    if(owner_collections[index].collection_name === collection_name){
-		owner_collections[index].collection_portion = collection_portion;
-		await owner_collections.save();
+		//parse through instruments
+		for(let ic = owner_collection[index].instruments.length - 1; ic >= 0; ic-- ){
+		    if(owner_collection[index].instruments[ic].instrument_name === collection_instrument){
+			owner_collections[index].instruments[ic].collection_portion = collection_portion;			
+			await owner_collections.save();
+		    }
+		}
 	    }
 	}
 
@@ -276,8 +283,13 @@ router.post('/collection/portion', [
 	    //find collection
 	    for (let ci = member_collections.length - 1; ci >= 0; ci--){
 		if(member_collections[ci].collection_name === collection_name){
-		    member_collections[ci].collection_portion = collection_portion;
-		    await member_collections.save();
+		    //parse through instruments
+		    for(let ic = member_collections[ci].instruments.length - 1; ic >= 0; ic--){
+			if(member_collections[ci].instruments[ic].instrument_name === collection_instrument){
+			    member_collections[ci].instruments[ic].collection_portion = collection_portion;
+			    await member_collections.save();
+			}
+		    }
 		}
 	    }
 	}
