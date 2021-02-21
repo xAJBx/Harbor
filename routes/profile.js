@@ -227,7 +227,7 @@ router.post('/comment/:collection_name', [
     }
 })
 
-// @route   POST /profile/collection/portion/:portion
+// @route   POST /profile/collection/portion
 // @desc    Update's the portion of an instrument needed for a product generated from collection
 // @access  Private
 router.post('/collection/portion', [
@@ -266,6 +266,8 @@ router.post('/collection/portion', [
 		    if(owner_collection[index].instruments[ic].instrument_name === collection_instrument){
 			owner_collections[index].instruments[ic].collection_portion = collection_portion;			
 			await owner_collections.save();
+
+			console.log(owner_profile);
 		    }
 		}
 	    }
