@@ -263,40 +263,37 @@ router.post('/collection/portion', [
 	for (let index = owner_collections.length -1; index >= 0; index--){
 	    console.log("found collection_name: ",owner_collections[index].collection_name === collection_name);
 	    if(owner_collections[index].collection_name === collection_name){
-		//console.log(owner_collections[index]);
 		//parse through instruments
 		for(let ic = owner_collections[index].collection_instruments.length - 1; ic >= 0; ic-- ){
-		    //console.log("ic:", ic);
 		    console.log("found instrument_name: ",owner_collections[index].collection_instruments[ic].instrument_name === collection_instrument);
 		    if(owner_collections[index].collection_instruments[ic].instrument_name === collection_instrument){
 			console.log(owner_collections[index].collection_instruments[ic].instrument_portion);
 			owner_profile.collections[index].collection_instruments[ic].instrument_portion = collection_portion;
-//			owner_collections[index].collection_instruments[ic].instrument_portion = collection_portion;			
 			await owner_profile.save();
-
 			console.log(owner_profile);
 		    }
 		}
 	    }
 	}
-
 	//update member's collection's portion
 	for (let parse = collection_users.length - 1; parse >= 0; parse--){
 	    let member_user = await User.findOne({ email: collection_users[parse] });
 	    let member_user_id = await member_user.id;
-
 	    //member profile
 	    let member_user_profile = await Profile.findOne({ user: member_user_id });
 	    let member_collections = member_user_profile.collections;
 
 	    //find collection
+	    console.log("find member collection");
 	    for (let ci = member_collections.length - 1; ci >= 0; ci--){
+		console.log("found member collection_name", member_collections[ci].collection_name === collection_name);
 		if(member_collections[ci].collection_name === collection_name){
 		    //parse through instruments
 		    for(let ic = member_collections[ci].instruments.length - 1; ic >= 0; ic--){
-			if(member_collections[ci].instruments[ic].instrument_name === collection_instrument){
-			    member_collections[ci].instruments[ic].collection_portion = collection_portion;
-			    await member_collections.save();
+			console.log("found member instrument_name", member_collections[ci].collection_instruments[ic.instrument_name === collection_instrument);
+			if(member_collections[ci].collection_instruments[ic].instrument_name === collection_instrument){
+			    member_user_profile.collections[ci].collection_instruments[ic].instrument_portion = collection_portion;
+			    await member_user_profile.save();
 			}
 		    }
 		}
