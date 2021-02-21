@@ -297,7 +297,7 @@ router.post('/collection/portion', [
     }catch(err){
 	return res.json({msg: toString(err)});
     }
-}
+});
 
 
 // @route   POST /profile/createCollection
