@@ -266,9 +266,9 @@ router.post('/createCollection', [
         }
 
 	let array_collection_instruments = collection_instruments.split(",");
-
+	
 	for(let idex = array_collection_instruments.length; idex >= 0; idex--){
-	    collection_add_obj.collection_instruments[idex].instrument_name = array_collection_instruments[idex];
+	    collection_add_obj.collection_instruments[owner_collections.length].instrument_name = array_collection_instruments[idex];
 	}
 
 	
