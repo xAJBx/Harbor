@@ -276,9 +276,9 @@ router.post('/collection/portion', [
 	    }
 	}
 	//update member's collection's portion
-	console.log(collection_users);
-	for (let parse = collection_users.length - 1; parse >= 0; parse--){
-	    let member_user = await User.findOne({ email: collection_users[parse] });
+	let collection_users_array = collection_users.split(",");
+	for (let parse = collection_users_array.length - 1; parse >= 0; parse--){
+	    let member_user = await User.findOne({ email: collection_users_array[parse] });
 	    let member_user_id = await member_user.id;
 	    //member profile
 	    let member_user_profile = await Profile.findOne({ user: member_user_id });
