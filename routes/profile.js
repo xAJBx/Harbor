@@ -227,8 +227,69 @@ router.post('/comment/:collection_name', [
     }
 })
 
+// @route   POST /profile/collection/portion
+// @desc    Update's the portion of an instrument needed for a product generated from collection
+// @access  Private
+router.post('/collection/:portion', [
+    body("collection_owner", "must have owner").not().isEmpty(),
+    body("collection_users", "must have users").not().isEmpty(),
+    body("collection_name", "must have collection name").not().isEmpty(),
+    body("collection_portion", "must have portion").not().isEmpty()
+],auth, async (req, res) => {
+    const errors = validateionResult(req);
+    if(!errors.isEmpty()){
+	return res.status(400).json({ errors: errors.array()});
+    }
+
+    const {
+	collection_owner,
+	collection_users,
+	collection_name,
+	collection_portion
+    } = req.body;
+
+    try{
+
+	//update owner's collection's portion
+	let user = await User.findOne({ email: collection_owner});	
+	let user_id = await user.id;
+	let owner_profile = await Profile.findOne({ user: user_id });
+	let owner_collections = owner_profile.collections;
+
+	//find collection
+	for (let index = owner_collections.length -1 >= 0; index--){
+	    if(owner_collections[index].collection_name === collection_name){
+		owner_collections[index].collection_portion = req.params.portion;
+		await owner_collections.save();
+	    }
+	}
+
+	//update member's collection's portion
+	for (let parse = collection_users.length - 1; parse >= 0; parse--){
+	    let member_user = await User.findOne({ email: collection_users[parse] });
+	    let member_user_id = await member_user.id;
+
+	    //member profile
+	    let member_user_profile = await Profile.findOne({ user: member_user_id });
+	    let member_collections = member_user_profile.collections;
+
+	    //find collection
+	    for (let ci = member_collections.length - 1; ci >= 0; ci--){
+		if(member_collections[ci].collection_name === collection_name){
+		    member_collections[ci].collection_portion = req.params.portion;
+		    await member_collections.save();
+		}
+	    }
+	}
+	return res.json(req.body);
+    }catch(err){
+	return res.json({msg: toString(err)});
+    }
+}
+
+
 // @route   POST /profile/createCollection
-// @decs    Create or Replace a collection
+// @desc    Create or Replace a collection
 // @toDo    1. validate users exist and handle otherwise
 //          2. implement coments amungst the users
 //          3. validate instruments exist
@@ -249,12 +310,12 @@ router.post('/createCollection', [
         collection_instruments,
         collection_users
     } = req.body;
-
+    
     try{
         let user = await User.findOne({ email: collection_owner});
         let user_id = await user.id;
 
-        console.log(user); 
+    
 
         // add collection to owner mongoDB
         let owner_profile = await Profile.findOne({ user: user_id });
@@ -327,7 +388,7 @@ router.post('/createCollection', [
         //res.text('done')
         //console.log("done");
     }catch (err){
-        console.log("test")
+    
         return res.json({msg: toString(err)});
     }
 
