@@ -262,8 +262,15 @@ router.post('/createCollection', [
         let collection_add_obj = {
             "collection_name": collection_name,
             "collection_people": collection_users.split(","),
-            "collection_instruments": [{ "instrument_name": collection_instruments.split(",")}] 
+            "collection_instruments": [] 
         }
+
+	let array_collection_instruments = collection_instruments.split(",");
+
+	for(let idex = array_collection_instruments.length; idex >= 0; idex++){
+	    collection_add_obj.collection_instruments[idex].instrument_name = array_collection_instruments[idex];
+	}
+	
         owner_collections.collections = owner_collections.push(collection_add_obj)
         if(owner_profile){
             // update profile
