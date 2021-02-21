@@ -267,9 +267,10 @@ router.post('/createCollection', [
 
 	let array_collection_instruments = collection_instruments.split(",");
 
-	for(let idex = array_collection_instruments.length; idex >= 0; idex++){
+	for(let idex = array_collection_instruments.length; idex >= 0; idex--){
 	    collection_add_obj.collection_instruments[idex].instrument_name = array_collection_instruments[idex];
 	}
+
 	
         owner_collections.collections = owner_collections.push(collection_add_obj)
         if(owner_profile){
