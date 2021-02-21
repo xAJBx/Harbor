@@ -261,9 +261,11 @@ router.post('/collection/portion', [
 	//find collection
 	console.log("find collection");
 	for (let index = owner_collections.length -1; index >= 0; index--){
+	    console.log("found collection_name: ",owner_collections[index].collection_name === collection_name);
 	    if(owner_collections[index].collection_name === collection_name){
 		//parse through instruments
 		for(let ic = owner_collection[index].instruments.length - 1; ic >= 0; ic-- ){
+		    console.log("found instrument_name: ",owner_collection[index].instruments[ic].instrument_name === collection_instrument);
 		    if(owner_collection[index].instruments[ic].instrument_name === collection_instrument){
 			owner_collections[index].instruments[ic].collection_portion = collection_portion;			
 			await owner_collections.save();
