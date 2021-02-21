@@ -266,8 +266,8 @@ router.post('/collection/portion', [
 		//console.log(owner_collections[index]);
 		//parse through instruments
 		for(let ic = owner_collections[index].collection_instruments.length - 1; ic >= 0; ic-- ){
-		    console.log("ic:", ic);
-		    console.log("found instrument_name: ",owner_collection[index].collection_instruments[ic].instrument_name === collection_instrument);
+		    //console.log("ic:", ic);
+		    console.log("found instrument_name: ",owner_collections[index].collection_instruments[ic].instrument_name === collection_instrument);
 		    if(owner_collection[index].instruments[ic].instrument_name === collection_instrument){
 			owner_collections[index].instruments[ic].collection_portion = collection_portion;			
 			await owner_collections.save();
