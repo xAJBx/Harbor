@@ -290,7 +290,7 @@ router.post('/collection/portion', [
 		if(member_collections[ci].collection_name === collection_name){
 		    //parse through instruments
 		    for(let ic = member_collections[ci].instruments.length - 1; ic >= 0; ic--){
-			console.log("found member instrument_name", member_collections[ci].collection_instruments[ic.instrument_name === collection_instrument);
+			console.log("found member instrument_name", member_collections[ci].collection_instruments[ic].instrument_name === collection_instrument);
 			if(member_collections[ci].collection_instruments[ic].instrument_name === collection_instrument){
 			    member_user_profile.collections[ci].collection_instruments[ic].instrument_portion = collection_portion;
 			    await member_user_profile.save();
