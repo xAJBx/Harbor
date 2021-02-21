@@ -397,7 +397,7 @@ router.post('/createCollection', [
         // prepare instrument list for sql view sp
         let collection_instruments_quoted = collection_instruments.replace(/,/g, "\', \'");
         collection_instruments_quoted = "\'" + collection_instruments_quoted + "\'"
-    
+	console.log("sqkl call", `CALL sp_Create_Collection_View("${collection_instruments_quoted}", "${collection_name}", "${user_id}")`);
         // create view in mysql
         let stuff = mysqlConnection.query(
             `CALL sp_Create_Collection_View("${collection_instruments_quoted}", "${collection_name}", "${user_id}")`
