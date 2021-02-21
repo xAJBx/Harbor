@@ -259,7 +259,7 @@ router.post('/collection/portion', [
 	let owner_collections = owner_profile.collections;
 
 	//find collection
-	for (let index = owner_collections.length -1 >= 0; index--){
+	for (let index = owner_collections.length -1; index >= 0; index--){
 	    if(owner_collections[index].collection_name === collection_name){
 		//parse through instruments
 		for(let ic = owner_collection[index].instruments.length - 1; ic >= 0; ic-- ){
