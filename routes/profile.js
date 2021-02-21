@@ -271,7 +271,7 @@ router.post('/createCollection', [
 	    collection_add_obj.collection_instruments[owner_collections.length].instrument_name = array_collection_instruments[idex];
 	}
 
-	
+	console.log(JSON.stringify(collection_add_obj));
         owner_collections.collections = owner_collections.push(collection_add_obj)
         if(owner_profile){
             // update profile
