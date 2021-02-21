@@ -65,7 +65,8 @@ const ProfileSchema = new mongoose.Schema({
 	    // <2021_02_20>
             collection_instruments: [{
 		instrument_name: { type: String },
-		instrument_portion: { type: Number, default: 0 }
+		instrument_portion: { type: Number, default: 0 },
+		instrument_unit: { type: String, default: 'unit'}
             }],
 	    // <\2021_02_20>
             collection_people: {
