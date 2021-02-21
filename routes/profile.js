@@ -287,10 +287,10 @@ router.post('/collection/portion', [
 	    //find collection
 	    console.log("find member collection");
 	    for (let ci = member_collections.length - 1; ci >= 0; ci--){
-		console.log("found member collection_name", member_collections[ci].collection_name === collection_name);
+		console.log("found member collection_name:", member_collections[ci].collection_name === collection_name);
 		if(member_collections[ci].collection_name === collection_name){
 		    //parse through instruments
-		    for(let ic = member_collections[ci].instruments.length - 1; ic >= 0; ic--){
+		    for(let ic = member_collections[ci].collection_instruments.length - 1; ic >= 0; ic--){
 			console.log("found member instrument_name", member_collections[ci].collection_instruments[ic].instrument_name === collection_instrument);
 			if(member_collections[ci].collection_instruments[ic].instrument_name === collection_instrument){
 			    member_user_profile.collections[ci].collection_instruments[ic].instrument_portion = collection_portion;
