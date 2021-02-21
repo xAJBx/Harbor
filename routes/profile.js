@@ -263,7 +263,7 @@ router.post('/collection/portion', [
 	for (let index = owner_collections.length -1; index >= 0; index--){
 	    console.log("found collection_name: ",owner_collections[index].collection_name === collection_name);
 	    if(owner_collections[index].collection_name === collection_name){
-		console.log('her');
+		console.log(owner_collections[index]);
 		//parse through instruments
 		for(let ic = owner_collection[index].instruments.length - 1; ic >= 0; ic-- ){
 		    console.log("ic:", ic);
