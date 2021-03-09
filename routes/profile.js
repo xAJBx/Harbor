@@ -300,6 +300,7 @@ router.post('/collection/portion', [
 		}
 	    }
 	}
+	console.log('end of portion');
 	return res.json(req.body);
     }catch(err){
 	return res.json({msg: toString(err)});
